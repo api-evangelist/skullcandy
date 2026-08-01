@@ -1,0 +1,64 @@
+generated: '2026-07-21'
+method: searched
+source: https://www.skullcandy.com/llms.txt
+docs: https://www.skullcandy.com/agents.md
+summary: >-
+  Cross-cutting agent/API conventions for the Skullcandy Shopify storefront,
+  captured from the published agent instructions (llms.txt / agents.md) and the
+  UCP merchant profile. Two surfaces: an authenticated Customer Account API
+  (OIDC) and an unauthenticated agentic-commerce + read-only browsing surface.
+authentication:
+  style: oidc-oauth2-authorization-code-pkce
+  detail: authentication/skullcandy-authentication.yml
+  note: >-
+    Customer Account API requires OIDC login. UCP catalog/cart operations are
+    unauthenticated; checkout payment is authorized per-transaction with human
+    approval.
+agentic_commerce:
+  protocol: Universal Commerce Protocol (UCP)
+  discovery: https://www.skullcandy.com/.well-known/ucp
+  mcp_endpoint: https://www.skullcandy.com/api/ucp/mcp
+  transport: mcp-over-http (POST, application/json)
+  tool_discovery: MCP tools/list method
+  flow:
+  - discover via GET /.well-known/ucp
+  - search_catalog
+  - create_cart
+  - create_checkout
+  - update_checkout (shipping address + method)
+  - complete_checkout (requires buyer approval)
+  human_approval_required: true
+  context_params:
+  - context.address_country
+  - context.currency
+read_only_browsing:
+  auth_required: false
+  endpoints:
+  - GET /collections/all
+  - GET /products/{handle}
+  - GET /products/{handle}.json
+  - GET /collections/{handle}
+  - GET /collections/{handle}/products.json
+  - GET /search?q={query}&type=product
+  - GET /sitemap.xml
+rate_limiting:
+  signaled_via: HTTP 429
+  guidance: MCP endpoint is rate-limited per IP; back off on 429 responses.
+idempotency:
+  supported: false
+  note: >-
+    No idempotency-key contract is documented for the storefront/UCP surface.
+    Checkout safety is enforced by the human-approval invariant rather than
+    idempotency keys.
+versioning:
+  scheme: dated
+  current: '2026-04-08'
+  supported:
+  - '2026-04-08'
+  - '2026-01-23'
+  note: UCP protocol version negotiated via the merchant profile.
+cross_links:
+  authentication: authentication/skullcandy-authentication.yml
+  scopes: scopes/skullcandy-scopes.yml
+  mcp: mcp/skullcandy-mcp.yml
+  well_known: well-known/skullcandy-well-known.yml

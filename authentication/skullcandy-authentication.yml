@@ -1,0 +1,47 @@
+generated: '2026-07-21'
+method: searched
+source: https://skullcandy.com/.well-known/openid-configuration
+docs: https://shopify.dev/docs/api/customer
+summary:
+  types:
+  - openIdConnect
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+  pkce: true
+  issuer: https://shopify.com/authentication/63551143993
+schemes:
+- name: ShopifyCustomerAccountOIDC
+  type: openIdConnect
+  openIdConnectUrl: https://skullcandy.com/.well-known/openid-configuration
+  issuer: https://shopify.com/authentication/63551143993
+  authorization_endpoint: https://account.skullcandy.com/authentication/oauth/authorize
+  token_endpoint: https://account.skullcandy.com/authentication/oauth/token
+  end_session_endpoint: https://account.skullcandy.com/authentication/logout
+  jwks_uri: https://account.skullcandy.com/authentication/.well-known/jwks.json
+  response_types_supported:
+  - code
+  grant_types_supported:
+  - authorization_code
+  - refresh_token
+  - urn:ietf:params:oauth:grant-type:jwt-bearer
+  code_challenge_methods_supported:
+  - S256
+  token_endpoint_auth_methods_supported:
+  - client_secret_basic
+  id_token_signing_alg_values_supported:
+  - RS256
+  scopes_supported:
+  - openid
+  - email
+  - customer-account-api:full
+  - customer-account-mcp-api:full
+  sources:
+  - well-known/skullcandy-openid-configuration.json
+notes:
+- 'Standard Shopify Customer Account API auth: OIDC authorization-code flow with
+  PKCE (S256). The customer-account-mcp-api:full scope grants a customer-scoped
+  MCP surface.'
+- 'Agentic UCP checkout (mcp/skullcandy-mcp.yml) does not require customer login
+  for catalog/cart operations; payment is authorized per-transaction through the
+  registered payment handlers with human approval.'

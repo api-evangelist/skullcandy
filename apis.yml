@@ -1,9 +1,31 @@
 aid: skullcandy
 name: Skullcandy
-description: Skullcandy is a company surfaced as a portfolio company of battery-ventures and added to
-  the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment
-  pipeline.
+description: >-
+  Skullcandy is a US consumer-audio brand that designs and sells headphones,
+  wireless earbuds, gaming headsets, and Bluetooth speakers. Its e-commerce
+  storefront at skullcandy.com runs on Shopify, and rather than a traditional
+  developer program the brand exposes a modern agentic-commerce surface: an
+  agent-facing llms.txt / agents.md, a Universal Commerce Protocol (UCP)
+  merchant profile with a hosted Model Context Protocol (MCP) endpoint for
+  catalog search, cart, checkout and fulfillment, a Shopify Customer Account
+  API secured with OpenID Connect / OAuth 2.0 (including a customer-account
+  MCP scope), and read-only storefront JSON endpoints for products and
+  collections. This profile captures that agent- and API-facing surface as
+  discovered on the live site.
 url: https://raw.githubusercontent.com/api-evangelist/skullcandy/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://www.skullcandy.com/cdn/shop/files/new-social.jpg?v=1726116747
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
@@ -12,12 +34,89 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
-apis: []
+- Consumer Electronics
+- Audio
+- Headphones
+- E-Commerce
+- Retail
+- Shopify
+- Agentic Commerce
+- MCP
+- Universal Commerce Protocol
+apis:
+- name: Skullcandy Agentic Commerce (UCP)
+  description: >-
+    Universal Commerce Protocol (UCP) merchant surface for the Skullcandy
+    Shopify storefront. Agents discover capabilities at /.well-known/ucp and
+    transact against a hosted MCP endpoint (catalog search, cart, checkout,
+    fulfillment, discounts, order) with buyer-approved payment via Shop Pay,
+    Shopify Card, and Google Pay handlers.
+  humanURL: https://ucp.dev/2026-04-08/specification/overview/
+  baseURL: https://www.skullcandy.com/api/ucp/mcp
+  properties:
+  - type: MCPServer
+    url: mcp/skullcandy-mcp.yml
+  - type: WellKnown
+    url: well-known/skullcandy-ucp.json
+- name: Skullcandy Customer Account API (Shopify)
+  description: >-
+    Shopify Customer Account API for the Skullcandy store, secured with
+    OpenID Connect / OAuth 2.0 (authorization code + PKCE). Scopes include
+    customer-account-api:full and customer-account-mcp-api:full. Authorization
+    and token endpoints are served from account.skullcandy.com.
+  humanURL: https://shopify.dev/docs/api/customer
+  baseURL: https://account.skullcandy.com/authentication
+  properties:
+  - type: Authentication
+    url: authentication/skullcandy-authentication.yml
+  - type: OAuthScopes
+    url: scopes/skullcandy-scopes.yml
+  - type: WellKnown
+    url: well-known/skullcandy-openid-configuration.json
+- name: Skullcandy Storefront Data (read-only)
+  description: >-
+    Unauthenticated read-only storefront endpoints for browsing catalog data:
+    product JSON (/products/{handle}.json), collection JSON
+    (/collections/{handle}/products.json), search, and sitemap.xml.
+  humanURL: https://www.skullcandy.com/agents.md
+  baseURL: https://www.skullcandy.com
+common:
+- type: LLMsTxt
+  url: llms/skullcandy-llms.txt
+- type: WellKnown
+  url: well-known/skullcandy-well-known.yml
+- type: MCPServer
+  url: mcp/skullcandy-mcp.yml
+- type: Authentication
+  url: authentication/skullcandy-authentication.yml
+- type: OAuthScopes
+  url: scopes/skullcandy-scopes.yml
+- type: Conventions
+  url: conventions/skullcandy-conventions.yml
+- type: DomainSecurity
+  url: security/skullcandy-domain-security.yml
+- type: DeveloperPortal
+  url: https://shopify.dev
+- type: Documentation
+  url: https://ucp.dev/2026-04-08/specification/overview/
+- type: Support
+  url: https://support.skullcandy.com/hc/en-us
+- type: GitHubOrganization
+  url: https://github.com/skullcandy
+- type: PrivacyPolicy
+  url: https://www.skullcandy.com/policies/privacy-policy
+- type: TermsOfService
+  url: https://www.skullcandy.com/policies/terms-of-service
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 9
+  pass: local-v1

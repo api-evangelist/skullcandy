@@ -1,0 +1,54 @@
+generated: '2026-07-21'
+method: searched
+status: published
+source: https://www.skullcandy.com/.well-known/ucp
+server:
+  name: skullcandy-ucp-shopping
+  description: >-
+    Hosted Universal Commerce Protocol (UCP) shopping MCP server for the
+    Skullcandy Shopify storefront. Agents call the MCP endpoint to search the
+    catalog, build a cart, and drive a buyer-approved checkout. Payment is
+    completed through registered handlers (Shop Pay, Shopify Card, Google Pay);
+    checkout requires contemporaneous human approval.
+  transport: http
+  protocol: mcp
+  url: https://www.skullcandy.com/api/ucp/mcp
+  method: POST
+  content_type: application/json
+  discovery: https://www.skullcandy.com/.well-known/ucp
+  ucp_version: '2026-04-08'
+  supported_versions:
+  - '2026-04-08'
+  - '2026-01-23'
+  schema: https://ucp.dev/2026-04-08/services/shopping/mcp.openrpc.json
+capabilities:
+- dev.ucp.shopping.catalog.search
+- dev.ucp.shopping.catalog.lookup
+- dev.ucp.shopping.cart
+- dev.ucp.shopping.checkout
+- dev.ucp.shopping.fulfillment
+- dev.ucp.shopping.discount
+- dev.ucp.shopping.order
+- dev.shopify.catalog
+payment_handlers:
+- com.google.pay
+- dev.shopify.card
+- dev.shopify.shop_pay
+# Tool names as documented in the store llms.txt agent flow. Discover
+# authoritative tool schemas at runtime via the MCP `tools/list` method.
+tools:
+- name: search_catalog
+  description: Find products matching the buyer's intent.
+- name: create_cart
+  description: Create a cart and add desired line items.
+- name: create_checkout
+  description: Start the purchase flow for a cart.
+- name: update_checkout
+  description: Set shipping address and fulfillment method on a checkout.
+- name: complete_checkout
+  description: Finalize the purchase (buyer must approve payment).
+notes:
+- MCP endpoint is rate-limited per IP; back off on HTTP 429.
+- Pass context.address_country and context.currency for accurate pricing.
+- A cross-store alternative for personal shopping agents is the Shop skill at
+  https://shop.app/SKILL.md (routes payment through Shop Pay).

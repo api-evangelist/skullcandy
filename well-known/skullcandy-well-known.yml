@@ -1,0 +1,42 @@
+generated: '2026-07-21'
+method: searched
+source: live probes of skullcandy.com, www.skullcandy.com and account.skullcandy.com
+hosts:
+- host: https://skullcandy.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: skullcandy-openid-configuration.json
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    file: ../llms/skullcandy-llms.txt
+- host: https://www.skullcandy.com
+  documents:
+  - path: /.well-known/ucp
+    status: 200
+    file: skullcandy-ucp.json
+    note: Universal Commerce Protocol merchant profile (UCP 2026-04-08)
+  - path: /agents.md
+    status: 200
+    file: ../llms/skullcandy-agents.md
+    note: canonical agent-facing store description (llms.txt mirrors this)
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://account.skullcandy.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: skullcandy-openid-configuration.json
+    note: identical issuer to apex-host document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: skullcandy-oauth-authorization-server.json
+  - path: /authentication/.well-known/jwks.json
+    status: 200
+    note: RS256 signing keys (not saved verbatim; rotates)
