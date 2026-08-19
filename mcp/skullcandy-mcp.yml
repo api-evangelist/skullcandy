@@ -4,12 +4,10 @@ status: published
 source: https://www.skullcandy.com/.well-known/ucp
 server:
   name: skullcandy-ucp-shopping
-  description: >-
-    Hosted Universal Commerce Protocol (UCP) shopping MCP server for the
-    Skullcandy Shopify storefront. Agents call the MCP endpoint to search the
-    catalog, build a cart, and drive a buyer-approved checkout. Payment is
-    completed through registered handlers (Shop Pay, Shopify Card, Google Pay);
-    checkout requires contemporaneous human approval.
+  description: Hosted Universal Commerce Protocol (UCP) shopping MCP server for the Skullcandy Shopify
+    storefront. Agents call the MCP endpoint to search the catalog, build a cart, and drive a buyer-approved
+    checkout. Payment is completed through registered handlers (Shop Pay, Shopify Card, Google Pay); checkout
+    requires contemporaneous human approval.
   transport: http
   protocol: mcp
   url: https://www.skullcandy.com/api/ucp/mcp
@@ -34,8 +32,6 @@ payment_handlers:
 - com.google.pay
 - dev.shopify.card
 - dev.shopify.shop_pay
-# Tool names as documented in the store llms.txt agent flow. Discover
-# authoritative tool schemas at runtime via the MCP `tools/list` method.
 tools:
 - name: search_catalog
   description: Find products matching the buyer's intent.
@@ -50,5 +46,13 @@ tools:
 notes:
 - MCP endpoint is rate-limited per IP; back off on HTTP 429.
 - Pass context.address_country and context.currency for accurate pricing.
-- A cross-store alternative for personal shopping agents is the Shop skill at
-  https://shop.app/SKILL.md (routes payment through Shop Pay).
+- A cross-store alternative for personal shopping agents is the Shop skill at https://shop.app/SKILL.md
+  (routes payment through Shop Pay).
+deployment:
+  mode: remote
+  endpoint: https://www.skullcandy.com/api/ucp/mcp
+  verified: probed
+  probe: live
+  tools: 13
+  checked: '2026-08-12'
+  source: catalog MCP census
