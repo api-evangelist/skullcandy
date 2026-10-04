@@ -66,6 +66,9 @@ apis:
     url: mcp/skullcandy-mcp.yml
   - type: WellKnown
     url: well-known/skullcandy-ucp.json
+  x-surface: platform-generated
+  x-platform: shopify
+  x-platform-surface: ucp
 - name: Skullcandy Customer Account API (Shopify)
   description: Shopify Customer Account API for the Skullcandy store, secured with OpenID Connect / OAuth
     2.0 (authorization code + PKCE). Scopes include customer-account-api:full and customer-account-mcp-api:full.
@@ -79,11 +82,16 @@ apis:
     url: scopes/skullcandy-scopes.yml
   - type: WellKnown
     url: well-known/skullcandy-openid-configuration.json
+  x-surface: platform-generated
+  x-platform: shopify
+  x-platform-surface: customer-account
 - name: Skullcandy Storefront Data (read-only)
   description: 'Unauthenticated read-only storefront endpoints for browsing catalog data: product JSON
     (/products/{handle}.json), collection JSON (/collections/{handle}/products.json), search, and sitemap.xml.'
   humanURL: https://www.skullcandy.com/agents.md
-  baseURL: https://www.skullcandy.com
+  x-surface: platform-generated
+  x-platform: shopify
+  x-platform-surface: storefront
 common:
 - type: Website
   url: https://skullcandy.com
